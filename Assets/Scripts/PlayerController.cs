@@ -1,88 +1,60 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class PlayerController : MonoBehaviour
+public class playercontroller : MonoBehaviour
 {
+	public float speedForce = 50f;
+	public float jumpForce = 5f;
 
+	public Vector2 jumpVector;
+	public bool isGrounded;
 
-	[HideInInspector] public bool facingRight = true;
-	[HideInInspector] public bool jump = false;
+	public Transform grounder;
+	public float radius;
+	public LayerMask ground;
 
-	private bool grounded = false;
-	public Transform groundCheck;
-	public float moveSpeed;
-	public float jumpHeight;
-	private bool doubleJumped;
-
-
-	public float health;
-	public float mana;
-	public float stamina;
-
-	//private Animator anim;
-	private Rigidbody2D rb2d;
+	public GameObject deathParticle;
+	public GameObject deathParticleSpawn;
 
 	// Use this for initialization
 	void Start ()
 	{
-		//anim = GetComponent<Animator> ();
-		rb2d = GetComponent<Rigidbody2D> ();
-
-	}
-
-	void Update ()
-	{
-		if (grounded) {
-			doubleJumped = false;
-		}
-
-		//anim.SetBool ("Grounded", grounded);
-
-		if ((Input.GetKeyDown (KeyCode.Space) || Input.GetKeyDown (KeyCode.W)) && grounded) {
-			//rb2d.velocity = new Vector2 (GetComponent<Rigidbody2D> ().velocity.x, jumpHeight);
-			Jump ();
-		}
-		if ((Input.GetKeyDown (KeyCode.Space) || Input.GetKeyDown (KeyCode.W)) && !doubleJumped && !grounded) {
-			//GetComponent<Rigidbody2D> ().velocity = new Vector2 (GetComponent<Rigidbody2D> ().velocity.x, jumpHeight);
-			Jump ();
-			doubleJumped = true;
-		}
-		if (Input.GetKey (KeyCode.D)) {
-			rb2d.velocity = new Vector2 (moveSpeed, rb2d.velocity.y);
-		}
-
-		if (Input.GetKey (KeyCode.A)) {
-			rb2d.velocity = new Vector2 (-moveSpeed, rb2d.velocity.y);
-		}
-
-		//anim.SetFloat ("Speed", Mathf.Abs (GetComponent<Rigidbody2D> ().velocity.x)); //tell us if moving left or right and do animation as long as not 0
-		if (rb2d.velocity.x > 0 && !facingRight) { //moving right so stay same.
-			Flip ();
-		} else if (rb2d.velocity.x < 0 && facingRight) {
-			Flip ();
-		}
+		
 	}
 	
 	// Update is called once per frame
 	void FixedUpdate ()
 	{
-		grounded = Physics2D.Linecast (transform.position, groundCheck.position, 1 << LayerMask.NameToLayer ("Ground"));
-
-
 	
+
+		if (Input.GetKey (KeyCode.A)) {
+			
+			GetComponent<Rigidbody2D> ().velocity = new Vector2 (-speedForce, GetComponent<Rigidbody2D> ().velocity.y);
+			transform.localScale = new Vector3 (-1, 1, 1);
+
+		} else if (Input.GetKey (KeyCode.D)) {
+			
+			GetComponent<Rigidbody2D> ().velocity = new Vector2 (speedForce, GetComponent<Rigidbody2D> ().velocity.y);
+			transform.localScale = new Vector3 (1, 1, 1);
+		} else
+			GetComponent<Rigidbody2D> ().velocity = new Vector2 (0, GetComponent<Rigidbody2D> ().velocity.y);
+
+		isGrounded = Physics2D.OverlapCircle (grounder.transform.position, radius, ground);
+
+
+		if (Input.GetKey (KeyCode.W) && isGrounded == true) {	
+			GetComponent<Rigidbody2D> ().velocity = new Vector2 (GetComponent<Rigidbody2D> ().velocity.x, jumpForce);
+		}
+
 	}
+		
+	void OnTriggerEnter2D(Collider2D other){
 
-	public void Jump ()
-	{
-		GetComponent<Rigidbody2D> ().velocity = new Vector2 (GetComponent<Rigidbody2D> ().velocity.x, jumpHeight);
-	}
+		if (other.tag == "Deadly") {
+			Debug.Log ("Dead");
 
+			Application.LoadLevel (0);
+		}
 
-	void Flip ()
-	{
-		facingRight = !facingRight;
-		Vector3 theScale = transform.localScale;
-		theScale.x *= -1;
-		transform.localScale = theScale;
 	}
 }
