@@ -32,7 +32,6 @@ public class PlayerController : MonoBehaviour
 
 	void Update ()
 	{
-		//Debug.Log (grounded);
 		if (grounded) {
 			doubleJumped = false;
 		}
