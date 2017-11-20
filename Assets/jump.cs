@@ -5,7 +5,7 @@ public class jump : MonoBehaviour
 {
 
 	public float fallMultiplier = 2.5f;
-	public float lowJumpMulitplier = 100f;
+	public float lowJumpMulitplier = 2f;
 
 	Rigidbody2D rb;
 

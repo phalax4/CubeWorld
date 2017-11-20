@@ -4,7 +4,7 @@ using System.Collections;
 public class playercontroller : MonoBehaviour
 {
 	public float speedForce = 50f;
-	public float jumpForce = 200f;
+	public float jumpForce = 5f;
 
 	public Vector2 jumpVector;
 	public bool isGrounded;
