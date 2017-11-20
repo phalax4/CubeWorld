@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
-public class playercontroller : MonoBehaviour
+public class PlayerController : MonoBehaviour
 {
 	public float speedForce = 50f;
 	public float jumpForce = 5f;
@@ -47,13 +48,14 @@ public class playercontroller : MonoBehaviour
 		}
 
 	}
-		
-	void OnTriggerEnter2D(Collider2D other){
+
+	void OnTriggerEnter2D (Collider2D other)
+	{
 
 		if (other.tag == "Deadly") {
 			Debug.Log ("Dead");
 
-			Application.LoadLevel (0);
+			SceneManager.LoadScene (0);
 		}
 
 	}
