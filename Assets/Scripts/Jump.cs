@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class jump : MonoBehaviour
+public class Jump : MonoBehaviour
 {
 
 	public float fallMultiplier = 2.5f;
