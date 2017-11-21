@@ -4,6 +4,8 @@ using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
+	private float moveVelocity;
+
 	public float speedForce = 50f;
 	public float jumpForce = 5f;
 
@@ -27,18 +29,23 @@ public class PlayerController : MonoBehaviour
 	void FixedUpdate ()
 	{
 	
+		moveVelocity = 0f;
 
 		if (Input.GetKey (KeyCode.A)) {
 			
-			GetComponent<Rigidbody2D> ().velocity = new Vector2 (-speedForce, GetComponent<Rigidbody2D> ().velocity.y);
+			//GetComponent<Rigidbody2D> ().velocity = new Vector2 (-speedForce, GetComponent<Rigidbody2D> ().velocity.y);
+			moveVelocity = -speedForce;
 			transform.localScale = new Vector3 (-1, 1, 1);
 
 		} else if (Input.GetKey (KeyCode.D)) {
 			
-			GetComponent<Rigidbody2D> ().velocity = new Vector2 (speedForce, GetComponent<Rigidbody2D> ().velocity.y);
+			//GetComponent<Rigidbody2D> ().velocity = new Vector2 (speedForce, GetComponent<Rigidbody2D> ().velocity.y);
+			moveVelocity = speedForce;
 			transform.localScale = new Vector3 (1, 1, 1);
 		} else
 			GetComponent<Rigidbody2D> ().velocity = new Vector2 (0, GetComponent<Rigidbody2D> ().velocity.y);
+
+		GetComponent<Rigidbody2D> ().velocity = new Vector2 (moveVelocity, GetComponent<Rigidbody2D> ().velocity.y);
 
 		isGrounded = Physics2D.OverlapCircle (grounder.transform.position, radius, ground);
 
