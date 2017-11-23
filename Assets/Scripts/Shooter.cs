@@ -26,6 +26,7 @@ public class Shooter : MonoBehaviour {
 
 			yield return new WaitForSeconds (delay);
 
+
 			GameObject clone = (GameObject)Instantiate (projectile, spawnPoint.position, Quaternion.identity);
 
 
