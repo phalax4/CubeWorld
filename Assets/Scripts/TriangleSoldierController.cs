@@ -1,10 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class TriangleSoldierController : MonoBehaviour
 {
 
-	public float speedForce = 50f;
+	public float speedForce = 3f;
 	public float jumpForce = 5f;
 
 	public Vector2 jumpVector;
