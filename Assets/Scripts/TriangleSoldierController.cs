@@ -18,9 +18,12 @@ public class TriangleSoldierController : MonoBehaviour
 	public GameObject deathParticle;
 	public GameObject deathParticleSpawn;
 
+	Animator anim;
+
 	// Use this for initialization
 	void Start ()
 	{
+		anim = GetComponent<Animator> ();
 
 	}
 
@@ -34,12 +37,19 @@ public class TriangleSoldierController : MonoBehaviour
 			GetComponent<Rigidbody2D> ().velocity = new Vector2 (-speedForce, GetComponent<Rigidbody2D> ().velocity.y);
 			transform.localScale = new Vector3 (-1, 1, 1);
 
+			anim.SetInteger ("State", 1);
+
 		} else if (Input.GetKey (KeyCode.D)) {
 
 			GetComponent<Rigidbody2D> ().velocity = new Vector2 (speedForce, GetComponent<Rigidbody2D> ().velocity.y);
 			transform.localScale = new Vector3 (1, 1, 1);
-		} else
+			anim.SetInteger ("State", 1);
+
+		} else {
+			anim.SetInteger ("State", 0);
+
 			GetComponent<Rigidbody2D> ().velocity = new Vector2 (0, GetComponent<Rigidbody2D> ().velocity.y);
+		}
 
 		isGrounded = Physics2D.OverlapCircle (grounder.transform.position, radius, ground);
 
